@@ -8,7 +8,8 @@ export default function ModalTask7({ modal, setModal, setUsers }) {
       user: null,
     });
   };
-  const handleSubmit = (event) => {
+
+  const handleSubmite = (event) => {
     event.preventDefault();
 
     const name = event.target[0].value;
@@ -49,7 +50,7 @@ export default function ModalTask7({ modal, setModal, setUsers }) {
 
   return (
     <div className="modal-overlay">
-      <form className="modal-container" onSubmit={handleSubmit}>
+      <form className="modal-container" onSubmit={handleSubmite}>
         <div className="modal-header">
           <h2>{modal.type === "edi" ? "Edit" : "Add"} user</h2>
         </div>
