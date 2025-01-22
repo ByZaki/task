@@ -6,6 +6,9 @@ import Task5 from "./components/Task5";
 import Task6 from "./components/Task6";
 import "./App.css";
 import Task7 from "./components/Task7";
+import Task8 from "./components/Task8";
+import Task9 from "./components/Task9";
+import Task10 from "./components/Task10";
 
 function App() {
   return (
@@ -21,7 +24,10 @@ function App() {
       <Task5 />
       <br /> */}
       {/* <Task6 /> */}
-      <Task7 />
+      {/* <Task7 /> */}
+      {/* <Task8 /> */}
+      {/* <Task9 /> */}
+      <Task10 />
     </>
   );
 }
