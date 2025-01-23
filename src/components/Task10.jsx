@@ -8,16 +8,37 @@ const BASE_URL = "https://312a2de6570b1db6.mokky.dev";
 export default function Task10() {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const [modal, setModal] = useState({
     show: false,
     item: null,
     type: "edit",
   });
 
-  const handleGetItems = () => {
+  const handleGetItems = (filter) => {
+    const name = filter?.name;
+    const price = filter?.price;
+    const sortBy = filter;
+
     setIsLoading(true);
-    axios.get(`${BASE_URL}/items?`).then((response) => {
+
+    let url = `${BASE_URL}/items?`;
+
+    if (name) {
+      url += `name=${name}&`;
+    }
+    if (price) {
+      url += `price=${price}`;
+    }
+    if (sortBy) {
+      url += `sortBy=${sortBy}`;
+    }
+
+    // if (name && price) {
+    //   url = url + `name=${name}&price=${price}`;
+    // }
+
+    axios.get(url).then((response) => {
       setItems(response.data);
       setIsLoading(false);
     });
@@ -43,19 +64,23 @@ export default function Task10() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
 
-    const searchItem = event.target[0].value.toLowerCase();
-    setSearchQuery(searchItem);
-    handleGetItems(searchItem);
+    const name = event.target[0].value;
+    const price = event.target[1].value;
+
+    handleGetItems({ name, price });
   };
 
-  const filteredItems = items.filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchQuery) ||
-      item.price.toString().includes(searchQuery) ||
-      item.weight.toString().includes(searchQuery)
-  );
+  const handleSortBy = (event) => {
+    // const sortName = event.target[1].value;
+    // const sortPrice = event.target[2].value;
+    // const sortWeight = event.target[3].value;
+    const sortBy = event.target.value;
+    console.log(sortBy);
+
+    setSortBy(sortBy);
+    handleGetItems(sortBy);
+  };
 
   useEffect(() => {
     handleGetItems();
@@ -64,15 +89,17 @@ export default function Task10() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label>Search</label>
-        <input
-          type="search"
-          placeholder="banana"
-          name="search"
-          defaultValue={""}
-        />
-
+        <label htmlFor="search">Search</label>
+        <input type="search" placeholder="name" name="search" />
+        <input type="search" placeholder="price" name="search" />
         <Button type="submit">Search</Button>
+        <label>Sort by:</label>
+        <select value={sortBy} onChange={handleSortBy}>
+          <option value=""></option>
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+          <option value="weight">Weight</option>
+        </select>
       </form>
 
       <Button onClick={() => setModal({ show: true, item: null, type: "add" })}>
@@ -87,17 +114,17 @@ export default function Task10() {
               <th>Id</th>
               <th>Name</th>
               <th>Price($)</th>
-              <th>Weight(kg)</th>
+              <th>Weight(gram)</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {filteredItems.map((item, index) => (
+            {items.map((item, index) => (
               <tr key={item.id}>
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.price + "$"}</td>
-                <td>{item.weight + "kg"}</td>
+                <td>{item.weight + "g"}</td>
                 <td>
                   <Button
                     onClick={() => setModal({ show: true, item, type: "edit" })}
