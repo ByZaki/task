@@ -97,8 +97,8 @@ export default function Task10() {
         <select value={sortBy} onChange={handleSortBy}>
           <option value=""></option>
           <option value="name">Name</option>
-          <option value="-price">High to low</option>
-          <option value="price">Low to high</option>
+          <option value="-price">Expensive</option>
+          <option value="price">Low cost</option>
           <option value="weight">Weight</option>
         </select>
       </form>
