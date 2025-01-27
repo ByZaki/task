@@ -1,4 +1,5 @@
-import Button from "./Button/Button";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 function isNaturalNumber(number) {
   return number > 0 && Number.isInteger(number);
@@ -20,5 +21,12 @@ export default function Task5() {
     alert(result);
   };
 
-  return <Button onClick={openModal}>Определить число</Button>;
+  return (
+    <Stack spacing={2} direction="row">
+      <Button variant="outlined" onClick={openModal}>
+        Определить число
+      </Button>
+      ;
+    </Stack>
+  );
 }

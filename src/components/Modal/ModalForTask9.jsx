@@ -1,6 +1,18 @@
-import "./Modal.css";
-import Button from "../Button/Button";
+import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import CancelIcon from "@mui/icons-material/Cancel";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Modal from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
+import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
+import { FormControlLabel, FormGroup } from "@mui/material";
+import { style } from "./Style";
 
 export default function ModalForTask9({
   modal,
@@ -8,7 +20,7 @@ export default function ModalForTask9({
   handleEdit,
   handleAdd,
 }) {
-  const [selectGender, setSelectGender] = useState(modal.user?.gender);
+  const [selectGender, setSelectGender] = useState(modal.user?.gender || "");
 
   const handleClose = () => {
     setModal({
@@ -20,23 +32,15 @@ export default function ModalForTask9({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const name = event.target[0].value;
-    const surname = event.target[1].value;
-    const gender = event.target[2].value;
-    const isAdmin = event.target[3].checked;
+    const formData = new FormData(event.target);
+    console.log(event);
+
+    const name = formData.get("nameInput");
+    const surname = formData.get("surnameInput");
+    const gender = selectGender;
+    const isAdmin = formData.get("isAdmin") === "on";
 
     if (!modal.user?.id) {
-      // setUsers((users) => [
-      //   ...users,
-      //   {
-      //     id: modal.length + 1,
-      //     name,
-      //     surname,
-      //     gender,
-      //     is_admin: isAdmin,
-      //   },
-      // ]);
-
       handleAdd({
         name,
         surname,
@@ -44,22 +48,6 @@ export default function ModalForTask9({
         is_admin: isAdmin,
       });
     } else {
-      // setUsers((users) => {
-      //   const foundUserIndex = users.findIndex(
-      //     (item) => item.id === modal.user?.id
-      //   );
-      //   if (foundUserIndex === -1) return users;
-
-      //   users[foundUserIndex] = {
-      //     id: modal.user.id,
-      //     name,
-      //     surname,
-      //     gender,
-      //     is_admin: isAdmin,
-      //   };
-      //   return users;
-      // });
-
       handleEdit(modal.user.id, {
         id: modal.user.id,
         name,
@@ -71,57 +59,74 @@ export default function ModalForTask9({
     handleClose();
   };
   return (
-    <div className="modal-overlay">
-      <form className="modal-container" onSubmit={handleSubmit}>
-        <div className="modal-header">
-          <h2>{modal.type === "edit" ? "Edit" : "Add"} user</h2>
-        </div>
-        <div className="modal-body">
-          <div className="form-group">
-            <label>Name</label>
-            <input
-              type="text"
-              className="form-input"
-              name="nameInput"
-              defaultValue={modal.user?.name}
-            />
-          </div>
-          <div className="form-group">
-            <label>Surname</label>
-            <input
-              type="text"
-              className="form-input"
-              defaultValue={modal.user?.surname}
-            />
-          </div>
-          <div className="form-group">
-            <label>Gender</label>
-            <select
-              className="form-input"
-              value={selectGender}
-              onChange={(event) => {
-                const { value } = event.target;
-                setSelectGender(value);
-              }}
+    <>
+      <Modal open={modal.show} onClose={handleClose}>
+        <Box sx={style}>
+          <form onSubmit={handleSubmit}>
+            <h2>{modal.type === "edit" ? "Edit" : "Add"} user</h2>
+            <Box
+              sx={{ "& > :not(style)": { m: 1, minWidth: 120 } }}
+              noValidate
+              autoComplete="off"
             >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Admin</label>
-            <input type="checkbox" defaultChecked={modal.user?.is_admin} />
-          </div>
-        </div>
-        <div className="modal-footer">
-          <Button type="submit" className="modal-button save-button">
-            Save
-          </Button>
-          <Button className="modal-button cancel-button" onClick={handleClose}>
-            Cancel
-          </Button>
-        </div>
-      </form>
-    </div>
+              <FormControl fullWidth>
+                <TextField
+                  id="outlined-basic"
+                  label="Name"
+                  variant="outlined"
+                  name="nameInput"
+                  defaultValue={modal.user?.name}
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <TextField
+                  id="outlined-basic"
+                  label="Surname"
+                  variant="outlined"
+                  name="surnameInput"
+                  defaultValue={modal.user?.surname}
+                />
+              </FormControl>
+              <FormControl>
+                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectGender}
+                  label="Gender"
+                  onChange={(event) => {
+                    const { value } = event.target;
+                    setSelectGender(value);
+                  }}
+                >
+                  <MenuItem value="">None</MenuItem>
+                  <MenuItem value="Male">Male</MenuItem>
+                  <MenuItem value="Female">Female</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="isAdmin"
+                    defaultChecked={modal.user?.is_admin}
+                  />
+                }
+                label="Admin"
+              />
+            </FormGroup>
+            <Stack direction="row" spacing={1}>
+              <IconButton type="submit">
+                <SaveAltIcon />
+              </IconButton>
+              <IconButton onClick={handleClose}>
+                <CancelIcon />
+              </IconButton>
+            </Stack>
+          </form>
+        </Box>
+      </Modal>
+    </>
   );
 }

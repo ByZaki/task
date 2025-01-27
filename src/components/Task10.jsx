@@ -1,7 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Button from "./Button/Button";
+import Stack from "@mui/material/Stack";
 import ModalTask10 from "./Modal/ModalTask10";
+import { IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 
 const BASE_URL = "https://312a2de6570b1db6.mokky.dev";
 
@@ -33,10 +38,6 @@ export default function Task10() {
     if (sortBy) {
       url += `sortBy=${sortBy}`;
     }
-
-    // if (name && price) {
-    //   url = url + `name=${name}&price=${price}`;
-    // }
 
     axios.get(url).then((response) => {
       setItems(response.data);
@@ -72,11 +73,7 @@ export default function Task10() {
   };
 
   const handleSortBy = (event) => {
-    // const sortName = event.target[1].value;
-    // const sortPrice = event.target[2].value;
-    // const sortWeight = event.target[3].value;
     const sortBy = event.target.value;
-    console.log(sortBy);
 
     setSortBy(sortBy);
     handleGetItems(sortBy);
@@ -92,8 +89,12 @@ export default function Task10() {
         <label htmlFor="search">Search</label>
         <input type="search" placeholder="name" name="search" />
         <input type="search" placeholder="price" name="search" />
-        <Button type="submit">Search</Button>
-        <label>Sort by:</label>
+        <Stack direction="row" spacing={1}>
+          <IconButton aria-label="search" variant="outlined" type="submit">
+            <SearchIcon />
+          </IconButton>
+        </Stack>
+        <label>Sort by</label>
         <select value={sortBy} onChange={handleSortBy}>
           <option value=""></option>
           <option value="name">Name</option>
@@ -102,10 +103,13 @@ export default function Task10() {
           <option value="weight">Weight</option>
         </select>
       </form>
-
-      <Button onClick={() => setModal({ show: true, item: null, type: "add" })}>
-        Add
-      </Button>
+      <Stack direction="row" spacing={1}>
+        <IconButton
+          onClick={() => setModal({ show: true, item: null, type: "add" })}
+        >
+          <AddIcon />
+        </IconButton>
+      </Stack>
       {isLoading ? (
         "Loading data"
       ) : items.length ? (
@@ -127,12 +131,20 @@ export default function Task10() {
                 <td>{item.price + "$"}</td>
                 <td>{item.weight + "g"}</td>
                 <td>
-                  <Button
-                    onClick={() => setModal({ show: true, item, type: "edit" })}
-                  >
-                    Edit
-                  </Button>
-                  <Button onClick={() => handleDelete(item.id)}>Delete</Button>
+                  <Stack direction="row" spacing={1}>
+                    <IconButton
+                      onClick={() =>
+                        setModal({ show: true, item, type: "edit" })
+                      }
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Stack>
+                  <Stack direction="row" spacing={1}>
+                    <IconButton onClick={() => handleDelete(item.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Stack>
                 </td>
               </tr>
             ))}

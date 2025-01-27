@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import Button from "./Button/Button";
 import ModalForTask9 from "./Modal/ModalForTask9";
+import Stack from "@mui/material/Stack";
+import { IconButton } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 
 const BASE_URL = "https://312a2de6570b1db6.mokky.dev";
@@ -47,9 +51,13 @@ export default function Task9() {
 
   return (
     <>
-      <Button onClick={() => setModal({ show: true, user: null, type: "add" })}>
-        Add
-      </Button>
+      <Stack direction="row" spacing={1}>
+        <IconButton
+          onClick={() => setModal({ show: true, user: null, type: "add" })}
+        >
+          <PersonAddIcon />
+        </IconButton>
+      </Stack>
       {isLoading ? (
         "Loading..."
       ) : users.length ? (
@@ -73,12 +81,20 @@ export default function Task9() {
                 <td>{user.gender}</td>
                 <td>{user.is_admin ? "Yes" : "No"}</td>
                 <td>
-                  <Button
-                    onClick={() => setModal({ show: true, user, type: "edit" })}
-                  >
-                    Edit
-                  </Button>
-                  <Button onClick={() => handleDelete(user.id)}>Delete</Button>
+                  <Stack direction="row" spacing={1}>
+                    <IconButton
+                      onClick={() =>
+                        setModal({ show: true, user, type: "edit" })
+                      }
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Stack>
+                  <Stack direction="row" spacing={1}>
+                    <IconButton onClick={() => handleDelete(user.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Stack>
                 </td>
               </tr>
             ))}
