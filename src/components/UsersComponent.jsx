@@ -1,15 +1,28 @@
 import { useEffect, useState } from "react";
-import ModalForTask9 from "./Modal/ModalForTask9";
-import Stack from "@mui/material/Stack";
-import { IconButton } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import axios from "axios";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Stack from "@mui/material/Stack";
+import {
+  IconButton,
+  Paper,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+
+import ModalForUsers from "./Modal/ModalForUsers";
 
 const BASE_URL = "https://312a2de6570b1db6.mokky.dev";
 
-export default function Task9() {
+export default function UsersComponent() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState({
@@ -61,27 +74,34 @@ export default function Task9() {
       {isLoading ? (
         "Loading..."
       ) : users.length ? (
-        <table>
-          <thead>
-            <tr>
-              <th>№</th>
-              <th>Name</th>
-              <th>Surname</th>
-              <th>Gender</th>
-              <th>Admin</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={user.id}>
-                <td>{index + 1}</td>
-                <td>{user.name}</td>
-                <td>{user.surname}</td>
-                <td>{user.gender}</td>
-                <td>{user.is_admin ? "Yes" : "No"}</td>
-                <td>
-                  <Stack direction="row" spacing={1}>
+        <TableContainer component={Paper} sx={{ width: "600px" }}>
+          <Table aria-label="simple table" stickyHeader={true}>
+            <TableHead>
+              <TableRow>
+                <TableCell>№</TableCell>
+                <TableCell align="right">Name</TableCell>
+                <TableCell align="right">Surname</TableCell>
+                <TableCell align="right">Gender</TableCell>
+                <TableCell align="right">Admin</TableCell>
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user, index) => (
+                <TableRow
+                  key={user.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="right">{user.name}</TableCell>
+                  <TableCell align="right">{user.surname}</TableCell>
+                  <TableCell align="right">{user.gender}</TableCell>
+                  <TableCell align="right">
+                    {user.is_admin ? "Yes" : "No"}
+                  </TableCell>
+                  <TableCell align="right" direction="row" spacing={2}>
                     <IconButton
                       onClick={() =>
                         setModal({ show: true, user, type: "edit" })
@@ -89,22 +109,20 @@ export default function Task9() {
                     >
                       <EditIcon />
                     </IconButton>
-                  </Stack>
-                  <Stack direction="row" spacing={1}>
                     <IconButton onClick={() => handleDelete(user.id)}>
                       <DeleteIcon />
                     </IconButton>
-                  </Stack>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : (
         "No data"
       )}
       {modal.show && (
-        <ModalForTask9
+        <ModalForUsers
           modal={modal}
           setModal={setModal}
           setUsers={setUsers}

@@ -1,14 +1,14 @@
 import { Link } from "react-router";
-import Task4 from "../components/Task4";
+import CalculatorComponent from "../components/CalculatorComponent";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Calculator() {
   return (
     <>
       <Link to="/">
-        <ArrowBackIcon />
+        <ArrowBackIcon style={{ marginBottom: "50px" }} />
       </Link>
-      <Task4 />
+      <CalculatorComponent />
     </>
   );
 }

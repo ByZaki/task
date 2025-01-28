@@ -1,20 +1,24 @@
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
+import { useState } from "react";
+import { style } from "./Style";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CancelIcon from "@mui/icons-material/Cancel";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Modal from "@mui/material/Modal";
-import TextField from "@mui/material/TextField";
-import Checkbox from "@mui/material/Checkbox";
-import { useState } from "react";
-import { FormControlLabel, FormGroup } from "@mui/material";
-import { style } from "./Style";
+import {
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  IconButton,
+  Box,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Modal,
+  TextField,
+  Checkbox,
+  Button,
+} from "@mui/material";
 
-export default function ModalForTask9({
+export default function ModalForUsers({
   modal,
   setModal,
   handleEdit,
@@ -116,13 +120,24 @@ export default function ModalForTask9({
                 label="Admin"
               />
             </FormGroup>
-            <Stack direction="row" spacing={1}>
-              <IconButton type="submit">
-                <SaveAltIcon />
-              </IconButton>
-              <IconButton onClick={handleClose}>
-                <CancelIcon />
-              </IconButton>
+            <Stack direction="row" spacing={2}>
+              <Button
+                variant="contained"
+                size="large"
+                type="submit"
+                color="success"
+              >
+                {modal.type === "edit" ? "Save" : "Create"}
+              </Button>
+
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={handleClose}
+                color="error"
+              >
+                Cancel
+              </Button>
             </Stack>
           </form>
         </Box>

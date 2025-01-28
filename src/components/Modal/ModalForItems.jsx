@@ -1,10 +1,8 @@
 import Stack from "@mui/material/Stack";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import IconButton from "@mui/material/IconButton";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { style } from "./Style";
 import {
   Box,
+  Button,
   FormControl,
   FormHelperText,
   InputAdornment,
@@ -13,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 
-export default function ModalForTask9({
+export default function ModalForItems({
   modal,
   setModal,
   handleEdit,
@@ -107,12 +105,23 @@ export default function ModalForTask9({
             </Box>
 
             <Stack direction="row" spacing={1}>
-              <IconButton type="submit">
-                <SaveAltIcon />
-              </IconButton>
-              <IconButton onClick={handleClose}>
-                <CancelIcon />
-              </IconButton>
+              <Button
+                variant="contained"
+                size="large"
+                type="submit"
+                color="success"
+              >
+                {modal.type === "edit" ? "Save" : "Create"}
+              </Button>
+
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={handleClose}
+                color="error"
+              >
+                Cancel
+              </Button>
             </Stack>
           </form>
         </Box>
