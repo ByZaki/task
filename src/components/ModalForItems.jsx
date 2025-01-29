@@ -55,7 +55,6 @@ export default function ModalForItems({
               <h2>{modal.type === "edit" ? "Edit" : "Add"} user</h2>
               <FormControl fullWidth>
                 <TextField
-                  id="outlined-basic"
                   label="Name"
                   size="small"
                   variant="outlined"
@@ -65,41 +64,27 @@ export default function ModalForItems({
               </FormControl>
 
               <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Price
-                </FormHelperText>
+                <FormHelperText>Price</FormHelperText>
                 <OutlinedInput
                   type="number"
                   size="small"
                   name="price"
                   defaultValue={modal.item?.price}
-                  id="outlined-adornment-weight"
                   endAdornment={
                     <InputAdornment position="end">$</InputAdornment>
                   }
-                  aria-describedby="outlined-weight-helper-text"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
                 />
               </FormControl>
               <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                <FormHelperText id="outlined-weight-helper-text">
-                  Weight
-                </FormHelperText>
+                <FormHelperText>Weight</FormHelperText>
                 <OutlinedInput
                   type="number"
                   size="small"
                   name="weight"
                   defaultValue={modal.item?.weight}
-                  id="outlined-adornment-weight"
                   endAdornment={
                     <InputAdornment position="end">g</InputAdornment>
                   }
-                  aria-describedby="outlined-weight-helper-text"
-                  inputProps={{
-                    "aria-label": "weight",
-                  }}
                 />
               </FormControl>
             </Box>

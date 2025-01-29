@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import ModalForDelete from "../components/ModalForDelete";
 
 export default function Home() {
   return (
@@ -14,38 +15,55 @@ export default function Home() {
     >
       <h1>My Subproject</h1>
       <nav style={{ marginTop: "20px" }}>
-        <ul style={{ listStyleType: "none", padding: 0 }}>
-          <li style={{ marginBottom: "10px" }}>
+        <ul
+          style={{
+            listStyleType: "none",
+            padding: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            fontSize: "25px",
+          }}
+        >
+          <li>
+            <Link
+              to="/what-number"
+              style={{
+                color: "blue",
+                textDecoration: "none",
+              }}
+            >
+              What is number?
+            </Link>
+          </li>
+          <li>
             <Link
               to="/calculator"
               style={{
-                textDecoration: "none",
                 color: "blue",
-                fontSize: "20px",
+                textDecoration: "none",
               }}
             >
               Calculator
             </Link>
           </li>
-          <li style={{ marginBottom: "10px" }}>
+          <li>
             <Link
               to="/users"
               style={{
-                textDecoration: "none",
                 color: "blue",
-                fontSize: "20px",
+                textDecoration: "none",
               }}
             >
               Users
             </Link>
           </li>
-          <li style={{ marginBottom: "10px" }}>
+          <li>
             <Link
               to="/items"
               style={{
-                textDecoration: "none",
                 color: "blue",
-                fontSize: "20px",
+                textDecoration: "none",
               }}
             >
               Products
@@ -53,6 +71,7 @@ export default function Home() {
           </li>
         </ul>
       </nav>
+      <ModalForDelete />
     </div>
   );
 }

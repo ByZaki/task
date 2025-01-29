@@ -1,5 +1,7 @@
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router";
 import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function isNaturalNumber(number) {
   return number > 0 && Number.isInteger(number);
@@ -22,11 +24,21 @@ export default function Task5() {
   };
 
   return (
-    <Stack spacing={2} direction="row">
-      <Button variant="outlined" onClick={openModal}>
-        Определить число
-      </Button>
-      ;
-    </Stack>
+    <>
+      <Stack sx={{ width: "900px", margin: "0 auto" }}>
+        <Link to="/" style={{ marginBottom: "20px", width: "fit-content" }}>
+          <ArrowBackIcon />
+        </Link>
+        <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+          <Button
+            sx={{ width: "fit-content" }}
+            variant="outlined"
+            onClick={openModal}
+          >
+            Определить число
+          </Button>
+        </Stack>
+      </Stack>
+    </>
   );
 }

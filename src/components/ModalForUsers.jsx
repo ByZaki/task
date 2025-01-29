@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { style } from "./Style";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CancelIcon from "@mui/icons-material/Cancel";
 import {
   FormControlLabel,
   FormGroup,
@@ -75,7 +73,6 @@ export default function ModalForUsers({
             >
               <FormControl fullWidth>
                 <TextField
-                  id="outlined-basic"
                   label="Name"
                   variant="outlined"
                   name="nameInput"
@@ -84,7 +81,6 @@ export default function ModalForUsers({
               </FormControl>
               <FormControl fullWidth>
                 <TextField
-                  id="outlined-basic"
                   label="Surname"
                   variant="outlined"
                   name="surnameInput"
@@ -92,10 +88,8 @@ export default function ModalForUsers({
                 />
               </FormControl>
               <FormControl>
-                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <InputLabel>Gender</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   value={selectGender}
                   label="Gender"
                   onChange={(event) => {
