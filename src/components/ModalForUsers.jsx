@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { style } from "./Style";
 import {
   FormControlLabel,
   FormGroup,
   Stack,
-  IconButton,
   Box,
   InputLabel,
   MenuItem,
@@ -22,7 +21,19 @@ export default function ModalForUsers({
   handleEdit,
   handleAdd,
 }) {
+  const [name, setName] = useState(modal.user?.name || "");
+  const [surname, setSurname] = useState(modal.user?.surname || "");
   const [selectGender, setSelectGender] = useState(modal.user?.gender || "");
+  const [isAdmin, setIsAdmin] = useState(modal.user?.is_admin || false);
+
+  useEffect(() => {
+    if (modal.user) {
+      setName(modal.user.name);
+      setSurname(modal.user.surname);
+      setSelectGender(modal.user.gender);
+      setIsAdmin(modal.user.is_admin);
+    }
+  }, [modal.user]);
 
   const handleClose = () => {
     setModal({
@@ -34,108 +45,99 @@ export default function ModalForUsers({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    console.log(event);
+    // Basic validation
+    if (!name || !surname) {
+      alert("Name and Surname are required!");
+      return;
+    }
 
-    const name = formData.get("nameInput");
-    const surname = formData.get("surnameInput");
-    const gender = selectGender;
-    const isAdmin = formData.get("isAdmin") === "on";
+    const userData = {
+      name,
+      surname,
+      gender: selectGender,
+      is_admin: isAdmin,
+    };
 
     if (!modal.user?.id) {
-      handleAdd({
-        name,
-        surname,
-        gender,
-        is_admin: isAdmin,
-      });
+      handleAdd(userData);
     } else {
-      handleEdit(modal.user.id, {
-        id: modal.user.id,
-        name,
-        surname,
-        gender,
-        is_admin: isAdmin,
-      });
+      handleEdit(modal.user.id, { ...userData, id: modal.user.id });
     }
     handleClose();
   };
-  return (
-    <>
-      <Modal open={modal.show} onClose={handleClose}>
-        <Box sx={style}>
-          <form onSubmit={handleSubmit}>
-            <h2>{modal.type === "edit" ? "Edit" : "Add"} user</h2>
-            <Box
-              sx={{ "& > :not(style)": { m: 1, minWidth: 120 } }}
-              noValidate
-              autoComplete="off"
-            >
-              <FormControl fullWidth>
-                <TextField
-                  label="Name"
-                  variant="outlined"
-                  name="nameInput"
-                  defaultValue={modal.user?.name}
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  label="Surname"
-                  variant="outlined"
-                  name="surnameInput"
-                  defaultValue={modal.user?.surname}
-                />
-              </FormControl>
-              <FormControl>
-                <InputLabel>Gender</InputLabel>
-                <Select
-                  value={selectGender}
-                  label="Gender"
-                  onChange={(event) => {
-                    const { value } = event.target;
-                    setSelectGender(value);
-                  }}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Male">Male</MenuItem>
-                  <MenuItem value="Female">Female</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="isAdmin"
-                    defaultChecked={modal.user?.is_admin}
-                  />
-                }
-                label="Admin"
-              />
-            </FormGroup>
-            <Stack direction="row" spacing={2}>
-              <Button
-                variant="contained"
-                size="large"
-                type="submit"
-                color="success"
-              >
-                {modal.type === "edit" ? "Save" : "Create"}
-              </Button>
 
-              <Button
+  return (
+    <Modal open={modal.show} onClose={handleClose}>
+      <Box sx={style}>
+        <form onSubmit={handleSubmit}>
+          <h2>{modal.type === "edit" ? "Edit" : "Add"} User</h2>
+          <Box
+            sx={{ "& > :not(style)": { m: 1, minWidth: 120 } }}
+            noValidate
+            autoComplete="off"
+          >
+            <FormControl fullWidth>
+              <TextField
+                label="Name"
                 variant="outlined"
-                size="large"
-                onClick={handleClose}
-                color="error"
+                name="nameInput"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Surname"
+                variant="outlined"
+                name="surnameInput"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel>Gender</InputLabel>
+              <Select
+                value={selectGender}
+                label="Gender"
+                onChange={(e) => setSelectGender(e.target.value)}
               >
-                Cancel
-              </Button>
-            </Stack>
-          </form>
-        </Box>
-      </Modal>
-    </>
+                <MenuItem value="">None</MenuItem>
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isAdmin}
+                  onChange={(e) => setIsAdmin(e.target.checked)}
+                />
+              }
+              label="Admin"
+            />
+          </FormGroup>
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              size="large"
+              type="submit"
+              color="success"
+            >
+              {modal.type === "edit" ? "Save" : "Create"}
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={handleClose}
+              color="error"
+            >
+              Cancel
+            </Button>
+          </Stack>
+        </form>
+      </Box>
+    </Modal>
   );
 }

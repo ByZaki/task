@@ -1,9 +1,7 @@
 import { Link } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useState } from "react";
-
 import axios from "axios";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,7 +16,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-
 import ModalForUsers from "../components/ModalForUsers";
 import ModalForDelete from "../components/ModalForDelete";
 
@@ -28,34 +25,40 @@ export default function Users() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deleteModal, setDeleteModal] = useState(null);
-  const [modal, setModal] = useState({
-    show: false,
-    user: null,
-    type: "edit",
-  });
+  const [modal, setModal] = useState({ show: false, user: null, type: "edit" });
 
-  const handleGetData = () => {
+  const handleGetData = async () => {
     setIsLoading(true);
-    axios.get(`${BASE_URL}/users`).then((response) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/users`);
       setUsers(response.data);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    } finally {
       setIsLoading(false);
-    });
+    }
   };
 
   useEffect(() => {
     handleGetData();
   }, []);
 
-  const handleEdit = (id, data) => {
-    axios.patch(`${BASE_URL}/users/${id}`, data).then(() => {
+  const handleEdit = async (id, data) => {
+    try {
+      await axios.patch(`${BASE_URL}/users/${id}`, data);
       handleGetData();
-    });
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
   };
 
-  const handleAdd = (data) => {
-    axios.post(`${BASE_URL}/users`, data).then(() => {
+  const handleAdd = async (data) => {
+    try {
+      await axios.post(`${BASE_URL}/users`, data);
       handleGetData();
-    });
+    } catch (error) {
+      console.error("Failed to add user:", error);
+    }
   };
 
   return (
@@ -67,14 +70,15 @@ export default function Users() {
         <Stack
           direction="row"
           spacing={1}
-          sx={{ marginBottom: "10px", justifyContent: "end" }}
+          sx={{ marginBottom: "10px", justifyContent: "flex-end" }}
         >
           <Button
             variant="outlined"
             endIcon={<AddIcon />}
             onClick={() => setModal({ show: true, user: null, type: "add" })}
+            sx={{ fontWeight: "bold" }}
           >
-            Create new user
+            Create New User
           </Button>
         </Stack>
         {isLoading ? (
@@ -107,7 +111,7 @@ export default function Users() {
                     <TableCell align="right">
                       {user.is_admin ? "Yes" : "No"}
                     </TableCell>
-                    <TableCell align="right" direction="row" spacing={2}>
+                    <TableCell align="right">
                       <IconButton
                         color="warning"
                         onClick={() =>

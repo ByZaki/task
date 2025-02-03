@@ -184,7 +184,7 @@ export default function Items() {
                     <TableCell align="right">{item.weight + "g"}</TableCell>
                     <TableCell align="right" direction="row" spacing={2}>
                       <IconButton
-                        color="success"
+                        color="warning"
                         onClick={() =>
                           setModal({ show: true, item, type: "edit" })
                         }

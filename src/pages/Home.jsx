@@ -9,11 +9,25 @@ export default function Home() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        minHeight: "100vh", // Changed to minHeight to avoid overflow issues
         background: "linear-gradient(to bottom, #f0f8ff, #87cefa)",
+        fontFamily: "'Roboto', sans-serif",
+        overflow: "hidden", // Prevents any overflow from appearing
+        margin: 0, // Removes default margin that might cause scroll
       }}
     >
-      <h1>My Subproject</h1>
+      <h1
+        style={{
+          fontSize: "3rem",
+          color: "#2a2a2a",
+          marginBottom: "30px",
+          textAlign: "center",
+          letterSpacing: "1px",
+        }}
+      >
+        ManagePro
+      </h1>
+
       <nav style={{ marginTop: "20px" }}>
         <ul
           style={{
@@ -21,17 +35,26 @@ export default function Home() {
             padding: 0,
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
-            fontSize: "25px",
+            gap: "15px",
+            fontSize: "1.2rem",
+            color: "#333",
           }}
         >
           <li>
             <Link
               to="/what-number"
               style={{
-                color: "blue",
+                color: "#008cba",
                 textDecoration: "none",
+                fontWeight: "bold",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                transition: "all 0.3s ease",
               }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#87cefa")}
+              onMouseOut={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               What is number?
             </Link>
@@ -40,9 +63,17 @@ export default function Home() {
             <Link
               to="/calculator"
               style={{
-                color: "blue",
+                color: "#008cba",
                 textDecoration: "none",
+                fontWeight: "bold",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                transition: "all 0.3s ease",
               }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#87cefa")}
+              onMouseOut={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Calculator
             </Link>
@@ -51,9 +82,17 @@ export default function Home() {
             <Link
               to="/users"
               style={{
-                color: "blue",
+                color: "#008cba",
                 textDecoration: "none",
+                fontWeight: "bold",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                transition: "all 0.3s ease",
               }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#87cefa")}
+              onMouseOut={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Users
             </Link>
@@ -62,15 +101,24 @@ export default function Home() {
             <Link
               to="/items"
               style={{
-                color: "blue",
+                color: "#008cba",
                 textDecoration: "none",
+                fontWeight: "bold",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                transition: "all 0.3s ease",
               }}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#87cefa")}
+              onMouseOut={(e) =>
+                (e.target.style.backgroundColor = "transparent")
+              }
             >
               Products
             </Link>
           </li>
         </ul>
       </nav>
+
       <ModalForDelete />
     </div>
   );
